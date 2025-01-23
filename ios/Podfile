@@ -18,10 +18,11 @@ target 'MyEComm' do
   config = use_native_modules!
 
   use_react_native!(
-    :path => config[:reactNativePath],
-    # An absolute path to your application root.
-    :app_path => "#{Pod::Config.instance.installation_root}/.."
-  )
+  :path => config[:reactNativePath],
+  :app_path => "#{Pod::Config.instance.installation_root}/..",
+  hermes_enabled: false # Disable Hermes
+)
+
 
   target 'MyECommTests' do
     inherit! :complete

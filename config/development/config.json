@@ -1,0 +1,9 @@
+{
+    "apiBaseUrl": "https://dev.example.com/api",
+    "featureFlags": {
+      "enableBetaFeatures": true
+    },
+    "debugMode": true,
+    "appDisplayName": "MyEComm (Development)"
+  }
+  

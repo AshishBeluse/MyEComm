@@ -1,0 +1,9 @@
+{
+    "apiBaseUrl": "https://staging.example.com/api",
+    "featureFlags": {
+      "enableBetaFeatures": false
+    },
+    "debugMode": true,
+    "appDisplayName": "MyEComm (Staging)"
+  }
+  
