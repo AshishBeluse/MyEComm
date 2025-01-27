@@ -61,7 +61,10 @@ const ProofOfDelivery = () => {
       />
       <Button
         title={t('Submit Proof')}
-        onPress={() => console.log({imageUri, condition, rating})}
+        onPress={() => {
+          console.log({imageUri, condition, rating});
+          navigation.navigate('Home');
+        }}
       />
     </View>
   );

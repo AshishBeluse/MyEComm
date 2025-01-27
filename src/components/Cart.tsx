@@ -1,17 +1,16 @@
 import React, {useState} from 'react';
 import {View, Text, FlatList, Button, StyleSheet, Alert} from 'react-native';
 import {useTranslation} from 'react-i18next';
-import {useNavigation} from '@react-navigation/native';
-
-const initialCartItems = [
-  {id: '1', name: 'Product 1', price: 10, quantity: 1},
-  {id: '2', name: 'Product 2', price: 20, quantity: 2},
-];
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 export default function Cart() {
   const {t} = useTranslation();
-  const [cartItems, setCartItems] = useState(initialCartItems);
+  const route = useRoute();
   const navigation = useNavigation();
+
+  const initialCartItems = route.params?.cartItems || [];
+
+  const [cartItems, setCartItems] = useState(initialCartItems);
 
   const handleRemoveItem = (id: string) => {
     setCartItems(prevItems => prevItems.filter(item => item.id !== id));
@@ -43,7 +42,7 @@ export default function Cart() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Cart</Text>
+      <Text style={styles.title}>{t('Cart')}</Text>
       {cartItems.length > 0 ? (
         <>
           <FlatList
@@ -55,7 +54,7 @@ export default function Cart() {
           <Button title={t('Checkout')} onPress={handleCheckout} />
         </>
       ) : (
-        <Text style={styles.emptyMessage}>Your cart is empty!</Text>
+        <Text style={styles.emptyMessage}>{t('Your cart is empty!')}</Text>
       )}
     </View>
   );

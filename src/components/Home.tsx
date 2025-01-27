@@ -51,6 +51,7 @@ export default function Home({toggleTheme}: HomeProps) {
 
   const [filter, setFilter] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [cart, setCart] = useState([]);
 
   const filteredProducts = products.filter(item => {
     const matchesCategory = selectedCategory
@@ -59,9 +60,27 @@ export default function Home({toggleTheme}: HomeProps) {
     const matchesFilter = filter
       ? item.name.toLowerCase().includes(filter.toLowerCase())
       : true;
-
     return matchesCategory && matchesFilter;
   });
+
+  const handleAddToCart = item => {
+    setCart(prevCart => {
+      const existingItemIndex = prevCart.findIndex(
+        cartItem => cartItem.id === item.id,
+      );
+
+      if (existingItemIndex !== -1) {
+        // If the item exists in the cart, update the quantity
+        const updatedCart = [...prevCart];
+        updatedCart[existingItemIndex].quantity += 1;
+        return updatedCart;
+      } else {
+        // If the item doesn't exist in the cart, add it with quantity 1
+        return [...prevCart, {...item, quantity: 1}];
+      }
+    });
+    console.log(`${t('Added')} ${item.name} ${t('to cart')}`);
+  };
 
   const renderProduct = ({item}: {item: (typeof products)[0]}) => (
     <View style={[styles.product, {borderColor: theme.colors.primary}]}>
@@ -76,10 +95,7 @@ export default function Home({toggleTheme}: HomeProps) {
       </Text>
       <Button
         title={t('Add to Cart')}
-        onPress={() => {
-          console.log(`${t('Added')} ${item.name} ${t('to cart')}`);
-          navigation.navigate('Cart');
-        }}
+        onPress={() => handleAddToCart(item)}
         color={theme.colors.primary}
       />
     </View>
@@ -110,7 +126,6 @@ export default function Home({toggleTheme}: HomeProps) {
           value={filter}
           onChangeText={setFilter}
         />
-
         <Picker
           selectedValue={selectedCategory}
           style={[styles.input, {color: theme.colors.text}]}
@@ -128,6 +143,10 @@ export default function Home({toggleTheme}: HomeProps) {
         contentContainerStyle={styles.list}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
+      />
+      <Button
+        title={t('Go to Cart')}
+        onPress={() => navigation.navigate('Cart', {cartItems: cart})}
       />
     </View>
   );
