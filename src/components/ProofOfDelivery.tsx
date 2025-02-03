@@ -10,6 +10,7 @@ const ProofOfDelivery = () => {
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [condition, setCondition] = useState('');
   const [rating, setRating] = useState<number | null>(null);
+  const navigation = useNavigation();
 
   const handleCapture = async () => {
     const hasPermission = await requestCameraPermission();
